@@ -64,6 +64,18 @@ li {
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid #ccc;
+    position: relative; 
+}
+.edit-btn {
+    background-color: #ffc107;
+    color: #333;
+    border: none;
+    border-radius: 25px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    position: absolute;
+    right: 60px; */
 }
 
 label {

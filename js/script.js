@@ -12,14 +12,33 @@ function renderTasks() {
 
     tasks.forEach((task, index) => {
         const taskItem = document.createElement('li');
-        taskItem.innerHTML = `
-            <label>
-                <input type="checkbox" class="complete-checkbox" data-index="${index}" ${task.completed ? 'checked' : ''}>
-                ${task.name}
-            </label>
-            <button class="delete-btn" data-index="${index}">Delete</button>
-        `;
-        taskList.appendChild(taskItem);
+        
+        if (!task.completed) {
+            taskItem.innerHTML = `
+                <label>
+                    <input type="checkbox" class="complete-checkbox" data-index="${index}">
+                    ${task.name}
+                </label>
+                <button class="edit-btn" data-index="${index}">Edit</button>
+                <button class="delete-btn" data-index="${index}">X</button>
+            `;
+            taskList.appendChild(taskItem);
+        }
+    });
+
+    tasks.forEach((task, index) => {
+        const taskItem = document.createElement('li');
+
+        if (task.completed) {
+            taskItem.innerHTML = `
+                <label>
+                    <input type="checkbox" class="complete-checkbox" data-index="${index}" checked>
+                    <del>${task.name}</del>
+                </label>
+                <button class="delete-btn" data-index="${index}">X</button>
+            `;
+            taskList.appendChild(taskItem);
+        }
     });
 
     updateLocalStorage();
@@ -58,6 +77,19 @@ taskList.addEventListener('click', function (e) {
         const index = parseInt(e.target.getAttribute('data-index'));
         tasks.splice(index, 1);
         renderTasks();
+    }
+});
+
+// Event listener for editing tasks
+taskList.addEventListener('click', function (e) {
+    if (e.target.classList.contains('edit-btn')) {
+        const index = parseInt(e.target.getAttribute('data-index'));
+        const newName = prompt('Edit task name:', tasks[index].name);
+        
+        if (newName !== null) {
+            tasks[index].name = newName;
+            renderTasks();
+        }
     }
 });
 
